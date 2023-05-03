@@ -1,0 +1,2 @@
+1,Acción
+2,Terror

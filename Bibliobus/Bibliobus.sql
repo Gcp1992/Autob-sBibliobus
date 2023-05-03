@@ -3,28 +3,13 @@
 BEGIN;
 
 
-CREATE TABLE IF NOT EXISTS public.socios
-(
-    dni serial NOT NULL,
-    direccion character varying(70) NOT NULL,
-    nombre character varying(30) NOT NULL,
-    PRIMARY KEY (dni)
-);
-
-CREATE TABLE IF NOT EXISTS public.temas
-(
-    id_tema serial NOT NULL,
-    tema character varying(30) NOT NULL,
-    PRIMARY KEY (id_tema)
-);
-
 CREATE TABLE IF NOT EXISTS public.libros
 (
-    isbn serial NOT NULL,
-    autor character varying(40) NOT NULL,
+    isbn integer NOT NULL DEFAULT nextval('libros_isbn_seq'::regclass),
+    autor character varying(40) COLLATE pg_catalog."default" NOT NULL,
     n_ejemplares integer NOT NULL,
     id_tema integer NOT NULL,
-    PRIMARY KEY (isbn)
+    CONSTRAINT libros_pkey PRIMARY KEY (isbn)
 );
 
 CREATE TABLE IF NOT EXISTS public.prestados
@@ -33,7 +18,22 @@ CREATE TABLE IF NOT EXISTS public.prestados
     isbn integer NOT NULL,
     fecha_prestamo date NOT NULL,
     fecha_devolucion date NOT NULL,
-    id_prestamos serial NOT NULL
+    id_prestamos integer NOT NULL DEFAULT nextval('prestados_id_prestamos_seq'::regclass)
+);
+
+CREATE TABLE IF NOT EXISTS public.socios
+(
+    dni integer NOT NULL DEFAULT nextval('socios_dni_seq'::regclass),
+    direccion character varying(70) COLLATE pg_catalog."default" NOT NULL,
+    nombre character varying(30) COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT socios_pkey PRIMARY KEY (dni)
+);
+
+CREATE TABLE IF NOT EXISTS public.temas
+(
+    id_tema integer NOT NULL DEFAULT nextval('temas_id_tema_seq'::regclass),
+    tema character varying(30) COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT temas_pkey PRIMARY KEY (id_tema)
 );
 
 ALTER TABLE IF EXISTS public.libros
